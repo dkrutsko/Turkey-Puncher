@@ -614,10 +614,7 @@ var TurkeyGame =
 	mRevBorderB		: false,		// Reverse border blue channel
 
 	mIntro			: null,			// Intro sound effect
-	mMusic1			: null,			// Background music 1
-	mMusic2			: null,			// Background music 2
-	mMusicLoop		: 1700,			// Elapsed time for music loop
-	mMusicCurr		: false,		// Which music loop to play
+	mMusic			: null,			// Background music
 
 
 
@@ -705,16 +702,14 @@ var TurkeyGame =
 		this.ResizeWindow (this);
 
 		// Load the background music
-		this.mMusic1 = new Audio();
-		this.mMusic2 = new Audio();
-
 		if (!this.IsMobile())
 		{
-			this.mMusic1.src = 'sounds/music.wav';
-			this.mMusic2.src = 'sounds/music.wav';
+			this.mMusic = new Audio ('sounds/music.mp3');
+			this.mMusic.loop = true;
+			this.mMusic.autoplay = true;
 
 			// Start the intro voice over
-			this.mIntro = new Audio ('sounds/intro.wav');
+			this.mIntro = new Audio ('sounds/intro.mp3');
 			this.mIntro.autoplay = true;
 		}
 
@@ -748,21 +743,6 @@ var TurkeyGame =
 
 	Update : function (elapsed)
 	{
-		// Loop the background music
-		// (Looping is very dodgy)
-		this.mMusicLoop += elapsed;
-		if (this.mMusicLoop >= 1700)
-		{
-			// Make the loop seamless
-			if (this.mMusicCurr)
-				this.mMusic1.play();
-			else
-				this.mMusic2.play();
-
-			this.mMusicLoop = 0;
-			this.mMusicCurr = !this.mMusicCurr;
-		}
-
 		// Animate the border color
 		this.AnimateBorder (elapsed / 30);
 
